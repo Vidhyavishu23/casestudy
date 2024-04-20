@@ -1,0 +1,51 @@
+﻿@model IEnumerable<casestudy.Models.Admission>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdmissionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class.ClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.Username)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdmissionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.Username)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.AdmissionID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.AdmissionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AdmissionID })
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@Html.ActionLink("Back to List", "AdminDashboard","Home")

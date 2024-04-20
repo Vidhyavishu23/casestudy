@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FinalCaseStudyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Admissions">
+          <Key>
+            <PropertyRef Name="AdmissionID" />
+          </Key>
+          <Property Name="AdmissionID" Type="int" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="AdmissionDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Classes">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="int" Nullable="false" />
+          <Property Name="ClassName" Type="varchar" MaxLength="50" />
+          <Property Name="IntakeCapacity" Type="int" />
+        </EntityType>
+        <EntityType Name="Fees">
+          <Key>
+            <PropertyRef Name="FeeID" />
+          </Key>
+          <Property Name="FeeID" Type="int" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="FeeAmount" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentDate" Type="date" />
+        </EntityType>
+        <EntityType Name="StudentLogin">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Firstname" Type="varchar" MaxLength="100" />
+          <Property Name="Lastname" Type="varchar" MaxLength="100" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="10" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="FeeID" Type="int" />
+          <Property Name="AdmissionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="ClassID" Type="int" />
+        </EntityType>
+        <Association Name="FK__Admission__Class__5165187F">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="0..1" />
+          <End Role="Admissions" Type="Self.Admissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Admissions">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Admission__Stude__5070F446">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="Admissions" Type="Self.Admissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Admissions">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fees__ClassID__5535A963">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="0..1" />
+          <End Role="Fees" Type="Self.Fees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Fees">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fees__StudentID__5441852A">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="Fees" Type="Self.Fees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Fees">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__Admis__797309D9">
+          <End Role="Admissions" Type="Self.Admissions" Multiplicity="0..1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admissions">
+              <PropertyRef Name="AdmissionID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="AdmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__Class__76969D2E">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="0..1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__FeeID__787EE5A0">
+          <End Role="Fees" Type="Self.Fees" Multiplicity="0..1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fees">
+              <PropertyRef Name="FeeID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="FeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__Stude__778AC167">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__ClassI__4D94879B">
+          <End Role="Classes" Type="Self.Classes" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Classes">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FinalCaseStudyModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Admissions" EntityType="Self.Admissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Classes" EntityType="Self.Classes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fees" EntityType="Self.Fees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentLogin" EntityType="Self.StudentLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Admission__Class__5165187F" Association="Self.FK__Admission__Class__5165187F">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Admissions" EntitySet="Admissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Admission__Stude__5070F446" Association="Self.FK__Admission__Stude__5070F446">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Admissions" EntitySet="Admissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fees__ClassID__5535A963" Association="Self.FK__Fees__ClassID__5535A963">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Fees" EntitySet="Fees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fees__StudentID__5441852A" Association="Self.FK__Fees__StudentID__5441852A">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Fees" EntitySet="Fees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__Admis__797309D9" Association="Self.FK__StudentLo__Admis__797309D9">
+            <End Role="Admissions" EntitySet="Admissions" />
+            <End Role="StudentLogin" EntitySet="StudentLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__Class__76969D2E" Association="Self.FK__StudentLo__Class__76969D2E">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="StudentLogin" EntitySet="StudentLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__FeeID__787EE5A0" Association="Self.FK__StudentLo__FeeID__787EE5A0">
+            <End Role="Fees" EntitySet="Fees" />
+            <End Role="StudentLogin" EntitySet="StudentLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__Stude__778AC167" Association="Self.FK__StudentLo__Stude__778AC167">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentLogin" EntitySet="StudentLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__ClassI__4D94879B" Association="Self.FK__Students__ClassI__4D94879B">
+            <End Role="Classes" EntitySet="Classes" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FinalCaseStudyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="FinalCaseStudyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Admissions" EntityType="FinalCaseStudyModel.Admission" />
+          <EntitySet Name="Classes" EntityType="FinalCaseStudyModel.Class" />
+          <EntitySet Name="Fees" EntityType="FinalCaseStudyModel.Fee" />
+          <EntitySet Name="Students" EntityType="FinalCaseStudyModel.Student" />
+          <AssociationSet Name="FK__Admission__Class__5165187F" Association="FinalCaseStudyModel.FK__Admission__Class__5165187F">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Admission" EntitySet="Admissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Admission__Stude__5070F446" Association="FinalCaseStudyModel.FK__Admission__Stude__5070F446">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Admission" EntitySet="Admissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fees__ClassID__5535A963" Association="FinalCaseStudyModel.FK__Fees__ClassID__5535A963">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Fee" EntitySet="Fees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Students__ClassI__4D94879B" Association="FinalCaseStudyModel.FK__Students__ClassI__4D94879B">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Fees__StudentID__5441852A" Association="FinalCaseStudyModel.FK__Fees__StudentID__5441852A">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="Fee" EntitySet="Fees" />
+          </AssociationSet>
+          <EntitySet Name="StudentLogins" EntityType="FinalCaseStudyModel.StudentLogin" />
+          <AssociationSet Name="FK__StudentLo__Class__68487DD7" Association="FinalCaseStudyModel.FK__StudentLo__Class__68487DD7">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="StudentLogin" EntitySet="StudentLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__Stude__693CA210" Association="FinalCaseStudyModel.FK__StudentLo__Stude__693CA210">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="StudentLogin" EntitySet="StudentLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__FeeID__6E01572D" Association="FinalCaseStudyModel.FK__StudentLo__FeeID__6E01572D">
+            <End Role="Fee" EntitySet="Fees" />
+            <End Role="StudentLogin" EntitySet="StudentLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__Admis__797309D9" Association="FinalCaseStudyModel.FK__StudentLo__Admis__797309D9">
+            <End Role="Admission" EntitySet="Admissions" />
+            <End Role="StudentLogin" EntitySet="StudentLogins" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Admission">
+          <Key>
+            <PropertyRef Name="AdmissionID" />
+          </Key>
+          <Property Name="AdmissionID" Type="Int32" Nullable="false" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="AdmissionDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Class" Relationship="FinalCaseStudyModel.FK__Admission__Class__5165187F" FromRole="Admission" ToRole="Class" />
+          <NavigationProperty Name="Student" Relationship="FinalCaseStudyModel.FK__Admission__Stude__5070F446" FromRole="Admission" ToRole="Student" />
+          <NavigationProperty Name="StudentLogins" Relationship="FinalCaseStudyModel.FK__StudentLo__Admis__797309D9" FromRole="Admission" ToRole="StudentLogin" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IntakeCapacity" Type="Int32" />
+          <NavigationProperty Name="Admissions" Relationship="FinalCaseStudyModel.FK__Admission__Class__5165187F" FromRole="Class" ToRole="Admission" />
+          <NavigationProperty Name="Fees" Relationship="FinalCaseStudyModel.FK__Fees__ClassID__5535A963" FromRole="Class" ToRole="Fee" />
+          <NavigationProperty Name="Students" Relationship="FinalCaseStudyModel.FK__Students__ClassI__4D94879B" FromRole="Class" ToRole="Student" />
+          <NavigationProperty Name="StudentLogins" Relationship="FinalCaseStudyModel.FK__StudentLo__Class__68487DD7" FromRole="Class" ToRole="StudentLogin" />
+        </EntityType>
+        <EntityType Name="Fee">
+          <Key>
+            <PropertyRef Name="FeeID" />
+          </Key>
+          <Property Name="FeeID" Type="Int32" Nullable="false" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="FeeAmount" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Class" Relationship="FinalCaseStudyModel.FK__Fees__ClassID__5535A963" FromRole="Fee" ToRole="Class" />
+          <NavigationProperty Name="Student" Relationship="FinalCaseStudyModel.FK__Fees__StudentID__5441852A" FromRole="Fee" ToRole="Student" />
+          <NavigationProperty Name="StudentLogins" Relationship="FinalCaseStudyModel.FK__StudentLo__FeeID__6E01572D" FromRole="Fee" ToRole="StudentLogin" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ClassID" Type="Int32" />
+          <NavigationProperty Name="Admissions" Relationship="FinalCaseStudyModel.FK__Admission__Stude__5070F446" FromRole="Student" ToRole="Admission" />
+          <NavigationProperty Name="Class" Relationship="FinalCaseStudyModel.FK__Students__ClassI__4D94879B" FromRole="Student" ToRole="Class" />
+          <NavigationProperty Name="Fees" Relationship="FinalCaseStudyModel.FK__Fees__StudentID__5441852A" FromRole="Student" ToRole="Fee" />
+          <NavigationProperty Name="StudentLogins" Relationship="FinalCaseStudyModel.FK__StudentLo__Stude__693CA210" FromRole="Student" ToRole="StudentLogin" />
+        </EntityType>
+        <Association Name="FK__Admission__Class__5165187F">
+          <End Type="FinalCaseStudyModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.Admission" Role="Admission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Admission">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Admission__Stude__5070F446">
+          <End Type="FinalCaseStudyModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.Admission" Role="Admission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Admission">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fees__ClassID__5535A963">
+          <End Type="FinalCaseStudyModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.Fee" Role="Fee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Fee">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Students__ClassI__4D94879B">
+          <End Type="FinalCaseStudyModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Fees__StudentID__5441852A">
+          <End Type="FinalCaseStudyModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.Fee" Role="Fee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Fee">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StudentLogin">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="StudentID" Type="Int32" />
+          <NavigationProperty Name="Class" Relationship="FinalCaseStudyModel.FK__StudentLo__Class__68487DD7" FromRole="StudentLogin" ToRole="Class" />
+          <NavigationProperty Name="Student" Relationship="FinalCaseStudyModel.FK__StudentLo__Stude__693CA210" FromRole="StudentLogin" ToRole="Student" />
+          <Property Name="FeeID" Type="Int32" />
+          <NavigationProperty Name="Fee" Relationship="FinalCaseStudyModel.FK__StudentLo__FeeID__6E01572D" FromRole="StudentLogin" ToRole="Fee" />
+          <Property Name="AdmissionID" Type="Int32" />
+          <NavigationProperty Name="Admission" Relationship="FinalCaseStudyModel.FK__StudentLo__Admis__797309D9" FromRole="StudentLogin" ToRole="Admission" />
+        </EntityType>
+        <Association Name="FK__StudentLo__Class__68487DD7">
+          <End Type="FinalCaseStudyModel.Class" Role="Class" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.StudentLogin" Role="StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__Stude__693CA210">
+          <End Type="FinalCaseStudyModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.StudentLogin" Role="StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__FeeID__6E01572D">
+          <End Type="FinalCaseStudyModel.Fee" Role="Fee" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.StudentLogin" Role="StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fee">
+              <PropertyRef Name="FeeID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="FeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__Admis__797309D9">
+          <End Type="FinalCaseStudyModel.Admission" Role="Admission" Multiplicity="0..1" />
+          <End Type="FinalCaseStudyModel.StudentLogin" Role="StudentLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admission">
+              <PropertyRef Name="AdmissionID" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="AdmissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FinalCaseStudyModelStoreContainer" CdmEntityContainer="FinalCaseStudyEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admissions">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.Admission">
+              <MappingFragment StoreEntitySet="Admissions">
+                <ScalarProperty Name="AdmissionDate" ColumnName="AdmissionDate" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="AdmissionID" ColumnName="AdmissionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.Class">
+              <MappingFragment StoreEntitySet="Classes">
+                <ScalarProperty Name="IntakeCapacity" ColumnName="IntakeCapacity" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fees">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.Fee">
+              <MappingFragment StoreEntitySet="Fees">
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="FeeAmount" ColumnName="FeeAmount" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentLogins">
+            <EntityTypeMapping TypeName="FinalCaseStudyModel.StudentLogin">
+              <MappingFragment StoreEntitySet="StudentLogin">
+                <ScalarProperty Name="AdmissionID" ColumnName="AdmissionID" />
+                <ScalarProperty Name="FeeID" ColumnName="FeeID" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

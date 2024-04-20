@@ -1,0 +1,60 @@
+﻿@model IEnumerable<casestudy.Models.Fee>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FeeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeeAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Class.ClassName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Student.Username)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeeAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Class.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.Username)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.FeeID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.FeeID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.FeeID })
+            </td>
+        </tr>
+    }
+
+</table>
+@Html.ActionLink("Back to List", "AdminDashboard", "Home")
